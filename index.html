@@ -119,24 +119,23 @@
 
     /* Foto */
     .foto {
-      aspect-ratio: 16 / 9;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: repeating-linear-gradient(
-        45deg,
-        var(--fondo-tarjeta),
-        var(--fondo-tarjeta) 16px,
-        #242424 16px,
-        #242424 32px
-      );
-      border: 2px dashed var(--naranja);
+      display: block;
+      width: 100%;
+      max-width: 480px;
+      height: auto;
+      margin: 0 auto;
+      border: 2px solid var(--naranja);
       border-radius: 16px;
-      color: var(--texto-suave);
-      font-size: clamp(1.1rem, 4vw, 1.5rem);
-      font-weight: 600;
-      text-align: center;
-      padding: 20px;
+    }
+
+    /* Precio */
+    .precio {
+      display: block;
+      font-size: clamp(2.6rem, 9vw, 3.6rem);
+      font-weight: 800;
+      color: var(--naranja);
+      line-height: 1;
+      margin-bottom: 20px;
     }
 
     /* Contacto */
@@ -176,6 +175,21 @@
     .boton:focus-visible {
       outline: 3px solid var(--blanco);
       outline-offset: 3px;
+    }
+
+    .instagram {
+      display: inline-block;
+      margin-top: 24px;
+      color: var(--blanco);
+      font-weight: 600;
+      text-decoration: underline;
+      text-decoration-color: var(--naranja);
+      text-underline-offset: 4px;
+    }
+
+    .instagram:hover,
+    .instagram:focus-visible {
+      color: var(--naranja);
     }
 
     footer {
@@ -234,7 +248,14 @@
 
     <section>
       <div class="contenedor">
-        <div class="foto" role="img" aria-label="Espacio reservado para la foto del producto">Foto próximamente</div>
+        <img class="foto" src="hangboard.jpg" width="688" height="960" alt="Hangboard portátil impreso en 3D de color morado, con forma triangular y regletas de 15 mm y 20 mm">
+      </div>
+    </section>
+
+    <section class="contacto">
+      <div class="contenedor">
+        <h2>Precio</h2>
+        <span class="precio">25 €</span>
       </div>
     </section>
 
@@ -243,6 +264,8 @@
         <h2>¿Te interesa?</h2>
         <p>Escríbeme y te cuento precio, disponibilidad y envío.</p>
         <a class="boton" href="mailto:alejandro.manzanerai8@gmail.com?subject=Quiero%20un%20hangboard%20port%C3%A1til">Contactar por correo</a>
+        <br>
+        <a class="instagram" href="https://www.instagram.com/zenitlafabrica/" target="_blank" rel="noopener">Síguenos en Instagram: @zenitlafabrica</a>
       </div>
     </section>
   </main>
