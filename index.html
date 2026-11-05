@@ -118,14 +118,71 @@
     }
 
     /* Foto */
-    .foto {
-      display: block;
-      width: 100%;
+    .galeria {
       max-width: 480px;
-      height: auto;
       margin: 0 auto;
+    }
+
+    .carrusel {
+      position: relative;
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      overscroll-behavior-x: contain;
+      scrollbar-width: none;
       border: 2px solid var(--naranja);
       border-radius: 16px;
+    }
+
+    .carrusel::-webkit-scrollbar {
+      display: none;
+    }
+
+    .carrusel img {
+      flex: 0 0 100%;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      scroll-snap-align: center;
+      scroll-snap-stop: always;
+      display: block;
+    }
+
+    .puntos {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .puntos button {
+      width: 12px;
+      height: 12px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: #555;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .puntos button[aria-current="true"] {
+      background: var(--naranja);
+      transform: scale(1.25);
+    }
+
+    .puntos button:focus-visible {
+      outline: 2px solid var(--blanco);
+      outline-offset: 3px;
+    }
+
+    .galeria-texto {
+      text-align: center;
+      color: var(--texto-suave);
+      font-size: 0.95rem;
+      margin-top: 10px;
     }
 
     /* Precio */
@@ -248,7 +305,17 @@
 
     <section>
       <div class="contenedor">
-        <img class="foto" src="hangboard.jpg" width="688" height="960" alt="Hangboard portátil impreso en 3D de color morado, con forma triangular y regletas de 15 mm y 20 mm">
+        <div class="galeria">
+          <div class="carrusel" id="carrusel" tabindex="0" aria-label="Fotos del hangboard. Desliza para ver más colores">
+            <img src="hangboard-morado.jpg" width="688" height="688" alt="Hangboard portátil impreso en 3D, color morado, con regletas de 15 mm y 20 mm">
+            <img src="hangboard-verde.jpg" width="688" height="688" alt="Hangboard portátil impreso en 3D, color verde" loading="lazy">
+            <img src="hangboard-rojo.jpg" width="688" height="688" alt="Hangboard portátil impreso en 3D, color rojo" loading="lazy">
+            <img src="hangboard-azul.jpg" width="688" height="688" alt="Hangboard portátil impreso en 3D, color azul" loading="lazy">
+            <img src="hangboard-negro.jpg" width="688" height="688" alt="Hangboard portátil impreso en 3D, color negro" loading="lazy">
+          </div>
+          <div class="puntos" id="puntos"></div>
+          <p class="galeria-texto">Desliza para ver todos los colores</p>
+        </div>
       </div>
     </section>
 
@@ -273,6 +340,40 @@
   <footer>
     <div class="contenedor">Hangboard portátil · Impreso en 3D</div>
   </footer>
+
+  <script>
+    (function () {
+      var carrusel = document.getElementById('carrusel');
+      var puntos = document.getElementById('puntos');
+      var fotos = carrusel.querySelectorAll('img');
+      var botones = [];
+
+      fotos.forEach(function (foto, i) {
+        var boton = document.createElement('button');
+        boton.type = 'button';
+        boton.setAttribute('aria-label', 'Ver foto ' + (i + 1) + ' de ' + fotos.length);
+        boton.addEventListener('click', function () {
+          carrusel.scrollTo({ left: foto.offsetLeft, behavior: 'smooth' });
+        });
+        puntos.appendChild(boton);
+        botones.push(boton);
+      });
+
+      function marcarActual() {
+        var actual = Math.round(carrusel.scrollLeft / carrusel.clientWidth);
+        botones.forEach(function (boton, i) {
+          boton.setAttribute('aria-current', i === actual ? 'true' : 'false');
+        });
+      }
+
+      carrusel.addEventListener('scroll', marcarActual, { passive: true });
+      carrusel.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowRight') { carrusel.scrollBy({ left: carrusel.clientWidth }); e.preventDefault(); }
+        if (e.key === 'ArrowLeft') { carrusel.scrollBy({ left: -carrusel.clientWidth }); e.preventDefault(); }
+      });
+      marcarActual();
+    })();
+  </script>
 
 </body>
 </html>
